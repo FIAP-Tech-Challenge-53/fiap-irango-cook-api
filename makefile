@@ -11,6 +11,9 @@ DATABASE = irango
 
 IMAGE ?= matob/irango-cook-api
 
+.PHONY: tests
+tests: clean down add-network create.env.file build up migration.run-tests seed.run-tests test
+
 .PHONY: setup
 setup: clean down add-network create.env.file build up migration.run seed.run logs
 
@@ -54,6 +57,8 @@ migration.recreatedb:
 # make migration.generate name=create_table_pedido
 migration.generate:
 	docker-compose exec -it ${CONTAINER_BACKEND} npm run migration:generate src/infra/persistence/typeorm/migrations/$(name)
+migration.run-tests:
+	docker-compose exec ${CONTAINER_BACKEND} npm run migration:run
 migration.run:
 	docker-compose exec -it ${CONTAINER_BACKEND} npm run migration:run
 migration.revert:
@@ -61,6 +66,8 @@ migration.revert:
 
 seed.generate:
 	docker-compose exec -it ${CONTAINER_BACKEND} npm run seed:generate src/infra/persistence/typeorm/seeds/$(name)
+seed.run-tests:
+	docker-compose exec ${CONTAINER_BACKEND} npm run seed:run
 seed.run:
 	docker-compose exec -it ${CONTAINER_BACKEND} npm run seed:run
 seed.revert:
@@ -68,11 +75,10 @@ seed.revert:
 
 test: test.integration
 test.integration: test.integration.createdb
-	docker-compose exec -it ${CONTAINER_BACKEND} npm run test:integration
+	npm run test:integration
 test.integration.createdb:
-	docker exec -it ${CONTAINER_MYSQL} mysql -uroot -ppassword -e "DROP DATABASE IF EXISTS ${DATABASE}_test; CREATE DATABASE ${DATABASE}_test;"
-	docker-compose exec -it ${CONTAINER_BACKEND} npm run migration:run:test
-
+	docker exec ${CONTAINER_MYSQL} mysql -uroot -ppassword -e "DROP DATABASE IF EXISTS ${DATABASE}_test; CREATE DATABASE ${DATABASE}_test;"
+	docker-compose exec ${CONTAINER_BACKEND} npm run migration:run:test
 bash:
 	docker exec -it ${CONTAINER_BACKEND} /bin/bash
 redis:

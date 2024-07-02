@@ -20,7 +20,7 @@
     "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource src/config/typeorm/TypeOrmSeedConfig.ts migration:run",
     "seed:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource src/config/typeorm/TypeOrmSeedConfig.ts migration:revert",
     "test:integration:one": "jest $1 --config jest.config.integration.js --runInBand --logHeapUsage --detectOpenHandles",
-    "test:integration": "jest test/integration/features --config jest.config.integration.js --runInBand --logHeapUsage",
+    "test:integration": "jest test/integration/features --config jest.config.integration.js --runInBand --logHeapUsage --detectOpenHandles",
     "test": "npm run test:integration"
   },
   "dependencies": {
