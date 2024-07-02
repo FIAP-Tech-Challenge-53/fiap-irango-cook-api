@@ -58,7 +58,7 @@ migration.recreatedb:
 migration.generate:
 	docker-compose exec -it ${CONTAINER_BACKEND} npm run migration:generate src/infra/persistence/typeorm/migrations/$(name)
 migration.run-tests:
-	docker-compose exec ${CONTAINER_BACKEND} npm run migration:run
+	docker-compose exec -T ${CONTAINER_BACKEND} npm run migration:run
 migration.run:
 	docker-compose exec -it ${CONTAINER_BACKEND} npm run migration:run
 migration.revert:
@@ -67,7 +67,7 @@ migration.revert:
 seed.generate:
 	docker-compose exec -it ${CONTAINER_BACKEND} npm run seed:generate src/infra/persistence/typeorm/seeds/$(name)
 seed.run-tests:
-	docker-compose exec ${CONTAINER_BACKEND} npm run seed:run
+	docker-compose exec -T ${CONTAINER_BACKEND} npm run seed:run
 seed.run:
 	docker-compose exec -it ${CONTAINER_BACKEND} npm run seed:run
 seed.revert:
@@ -78,7 +78,7 @@ test.integration: test.integration.createdb
 	npm run test:integration
 test.integration.createdb:
 	docker exec ${CONTAINER_MYSQL} mysql -uroot -ppassword -e "DROP DATABASE IF EXISTS ${DATABASE}_test; CREATE DATABASE ${DATABASE}_test;"
-	docker-compose exec ${CONTAINER_BACKEND} npm run migration:run:test
+	docker-compose exec -T ${CONTAINER_BACKEND} npm run migration:run:test
 bash:
 	docker exec -it ${CONTAINER_BACKEND} /bin/bash
 redis:
