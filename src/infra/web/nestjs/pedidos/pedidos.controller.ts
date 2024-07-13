@@ -59,7 +59,7 @@ export default class PedidosController {
 
   @Get('/:id')
   @ApiOperation({ summary: 'Encontrar um Pedido por ID' })
-  @ApiParam({ name: 'id', required: true, example: 12345 })
+  @ApiParam({ name: 'id', required: true, example: 1 })
   @ApiOkResponse({ description: 'O registro encontrado', type: PedidoResponse })
   findById (
     @Param('id') id: number,
@@ -74,7 +74,7 @@ export default class PedidosController {
 
   @Post('/:id/start')
   @ApiOperation({ summary: 'Receber e processar o evento de início de preparo de um Pedido a partir do serviço irango-cook' })
-  @ApiParam({ name: 'id', required: true, example: 12345 })
+  @ApiParam({ name: 'id', required: true, example: 1 })
   @ApiOkResponse({ description: 'O registro atualizado', type: PedidoResponse })
   startCooking (
     @Param('id') id: number,
@@ -89,7 +89,7 @@ export default class PedidosController {
 
   @Post('/:id/finish')
   @ApiOperation({ summary: 'Receber e processar o evento de finalização de preparo de um Pedido a partir do serviço irango-cook' })
-  @ApiParam({ name: 'id', required: true, example: 12345 })
+  @ApiParam({ name: 'id', required: true, example: 1 })
   @ApiOkResponse({ description: 'O registro atualizado', type: PedidoResponse })
   finishCooking (
     @Param('id') id: number,

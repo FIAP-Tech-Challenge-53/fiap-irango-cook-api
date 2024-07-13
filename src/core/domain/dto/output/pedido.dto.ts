@@ -1,4 +1,4 @@
-import { PedidoStatusEnum } from "@/core/domain/enums/pedido-status.enum";
+import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 
 export default interface PedidoDto {
   readonly id: number;

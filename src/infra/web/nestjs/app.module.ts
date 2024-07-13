@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { MongooseModule } from '@nestjs/mongoose'
 
-import TypeOrmConfig from '@/config/typeorm/TypeOrmConfig'
+import MongoConfig from '@/config/mongo/MongoConfig'
 import AppController from '@/infra/web/nestjs/app.controller'
 import PedidosModule from '@/infra/web/nestjs/pedidos/pedidos.module'
 
@@ -12,7 +12,7 @@ export const appModules = [
 @Global()
 @Module({
   imports: [
-    TypeOrmModule.forRoot(TypeOrmConfig),
+    MongooseModule.forRoot(MongoConfig),
     ...appModules
   ],
   controllers: [

@@ -9,7 +9,6 @@
 ![jest](https://shields.io/badge/Jest-C21325?logo=Jest&logoColor=FFF&style=flat-square)
 ![eslint](https://shields.io/badge/ESLint-4B32C3?logo=ESLint&logoColor=FFF&style=flat-square)
 ![editorconfig](https://shields.io/badge/EditorConfig-000000?logo=EditorConfig&logoColor=FFF&style=flat-square)
-![typeorm](https://shields.io/badge/TypeORM-F37626?logo=TypeORM&logoColor=FFF&style=flat-square)
 
 This project involves the development of an API for a fast food self-service system, proposed as a Tech Challenge for the Software Architecture Postgraduate Course at FIAP.
 
@@ -47,8 +46,8 @@ docker network create -d bridge local-network
 cp .env.example .env
 docker compose build --progress=plain
 docker compose up
-docker compose exec -it service-irango-cook-api npm run migration:run
-docker compose exec -it service-irango-cook-api npm run seed:run
+docker compose exec -it irango-cook-api npm run migration:run
+docker compose exec -it irango-cook-api npm run seed:run
 ```
 
 ## Start project using npm
@@ -112,7 +111,7 @@ docker compose exec -it ${CONTAINER_BACKEND} npm run migration:run:test
 ### Run all tests (We just have integrations for while)
 ```bash
 # With docker
-docker compose run service-irango-cook-api npm run test
+docker compose run irango-cook-api npm run test
 
 # local
 npm run test
@@ -121,7 +120,7 @@ npm run test
 ### Run only integration tests
 ```bash
 # With docker
-docker compose run service-irango-cook-api npm run test:integration
+docker compose run irango-cook-api npm run test:integration
 
 # local
 npm run test:integration
@@ -130,7 +129,7 @@ npm run test:integration
 ### Run a specifc test file
 ```bash
 # With docker
-docker compose run service-irango-cook-api npm run test:integration:one <FILE_NAME>
+docker compose run irango-cook-api npm run test:integration:one <FILE_NAME>
 
 # local
 npm run test:integration:one <FILE_NAME>
