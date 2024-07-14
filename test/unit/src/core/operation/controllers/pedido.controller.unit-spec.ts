@@ -3,16 +3,15 @@ import FinishCooking from '@/core/application/usecase/pedido/finishCooking.use-c
 import List from '@/core/application/usecase/pedido/list.use-case'
 import Register from '@/core/application/usecase/pedido/register.use-case'
 import StartCooking from '@/core/application/usecase/pedido/startCooking.use-case'
+import Pedido from '@/core/domain/entities/pedido'
+import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 import PedidoMapper from '@/core/domain/mappers/pedido.mapper'
 import IPedidoRepository from '@/core/domain/repositories/ipedido.repository'
-import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
+import { PedidoController } from '@/core/operation/controllers/pedido.controller'
 import IRangoOrderService from '@/infra/persistence/service/irango-order.service'
 import RegisterPedidoRequest from '@/infra/web/nestjs/pedidos/dto/register-pedido.request'
-import { PedidoController } from '@/core/operation/controllers/pedido.controller'
-import Pedido from '@/core/domain/entities/pedido'
 
 describe('Test for PedidoController Class', () => {
-
   let controller:PedidoController
 
   let mockPedidoRepository:jest.Mocked<IPedidoRepository>
@@ -69,7 +68,7 @@ describe('Test for PedidoController Class', () => {
       itens: []
     }
 
-    const pedido = new Pedido(dto);
+    const pedido = new Pedido(dto)
 
     mockRegisterHandle.mockResolvedValue(pedido)
     mockDto.mockReturnValue(dto)
@@ -84,7 +83,7 @@ describe('Test for PedidoController Class', () => {
     expect(result).toEqual(dto)
   })
 
-  it("list method test", async () => {
+  it('list method test', async () => {
     const dto = {
       id: 1,
       consumidorId: '1',
@@ -92,9 +91,9 @@ describe('Test for PedidoController Class', () => {
       itens: []
     }
 
-    const pedido = new Pedido(dto);
+    const pedido = new Pedido(dto)
 
-    mockListHandle.mockResolvedValue([pedido]);
+    mockListHandle.mockResolvedValue([pedido])
     mockDto.mockReturnValue(dto)
 
     const result = await controller.list()
@@ -104,10 +103,9 @@ describe('Test for PedidoController Class', () => {
 
     expect(mockDto).toHaveBeenCalledWith(pedido)
     expect(result).toEqual([dto])
+  })
 
-  });
-
-  it("findById method test", async () => {
+  it('findById method test', async () => {
     const dto = {
       id: 1,
       consumidorId: '1',
@@ -115,9 +113,9 @@ describe('Test for PedidoController Class', () => {
       itens: []
     }
 
-    const pedido = new Pedido(dto);
+    const pedido = new Pedido(dto)
 
-    mockFindByIdHandle.mockResolvedValue(pedido);
+    mockFindByIdHandle.mockResolvedValue(pedido)
     mockDto.mockReturnValue(dto)
 
     const result = await controller.findById(1)
@@ -128,9 +126,9 @@ describe('Test for PedidoController Class', () => {
     expect(mockFindByIdHandle).toHaveBeenCalledWith(1)
     expect(mockDto).toHaveBeenCalledWith(pedido)
     expect(result).toEqual(dto)
-  });
+  })
 
-  it("startCooking method test", async () => {
+  it('startCooking method test', async () => {
     const dto = {
       id: 1,
       consumidorId: '1',
@@ -138,9 +136,9 @@ describe('Test for PedidoController Class', () => {
       itens: []
     }
 
-    const pedido = new Pedido(dto);
+    const pedido = new Pedido(dto)
 
-    mockStartCookingHandle.mockResolvedValue(pedido);
+    mockStartCookingHandle.mockResolvedValue(pedido)
     mockDto.mockReturnValue(dto)
 
     const result = await controller.startCooking(1)
@@ -151,9 +149,9 @@ describe('Test for PedidoController Class', () => {
     expect(mockStartCookingHandle).toHaveBeenCalledWith(1)
     expect(mockDto).toHaveBeenCalledWith(pedido)
     expect(result).toEqual(dto)
-  });
+  })
 
-  it("finishCooking method test", async () => {
+  it('finishCooking method test', async () => {
     const dto = {
       id: 1,
       consumidorId: '1',
@@ -161,9 +159,9 @@ describe('Test for PedidoController Class', () => {
       itens: []
     }
 
-    const pedido = new Pedido(dto);
+    const pedido = new Pedido(dto)
 
-    mockFinishCookingHandle.mockResolvedValue(pedido);
+    mockFinishCookingHandle.mockResolvedValue(pedido)
     mockDto.mockReturnValue(dto)
 
     const result = await controller.finishCooking(1)
@@ -174,5 +172,5 @@ describe('Test for PedidoController Class', () => {
     expect(mockFinishCookingHandle).toHaveBeenCalledWith(1)
     expect(mockDto).toHaveBeenCalledWith(pedido)
     expect(result).toEqual(dto)
-  });
+  })
 })

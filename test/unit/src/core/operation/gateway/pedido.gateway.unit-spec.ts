@@ -1,7 +1,7 @@
 import Pedido from '@/core/domain/entities/pedido'
+import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 import IPedidoRepository from '@/core/domain/repositories/ipedido.repository'
 import { PedidoGateway } from '@/core/operation/gateway/pedido.gateway'
-import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 
 describe('Test PedidoGateway class', () => {
   let gateway:PedidoGateway
@@ -31,14 +31,14 @@ describe('Test PedidoGateway class', () => {
       itens: []
     }
 
-    const pedido = new Pedido(dto);
+    const pedido = new Pedido(dto)
 
-    mockPedidoRepository.find.mockResolvedValue([pedido]);
+    mockPedidoRepository.find.mockResolvedValue([pedido])
 
-    let result = await gateway.list();
+    const result = await gateway.list()
 
-    expect(mockPedidoRepository.find).toHaveBeenCalledTimes(1);
-    expect(result).toEqual([pedido]);
+    expect(mockPedidoRepository.find).toHaveBeenCalledTimes(1)
+    expect(result).toEqual([pedido])
   })
 
   it('create method test', async () => {
@@ -47,7 +47,7 @@ describe('Test PedidoGateway class', () => {
     const result = await gateway.create(pedido)
     expect(mockPedidoRepository.create).toHaveBeenCalledTimes(1)
     expect(mockPedidoRepository.create).toHaveBeenCalledWith(pedido)
-    expect(result).toEqual(pedido);
+    expect(result).toEqual(pedido)
   })
 
   it('save method test', async () => {
@@ -67,14 +67,14 @@ describe('Test PedidoGateway class', () => {
       itens: []
     }
 
-    const pedido = new Pedido(dto);
+    const pedido = new Pedido(dto)
 
-    mockPedidoRepository.findById.mockResolvedValue(pedido);
+    mockPedidoRepository.findById.mockResolvedValue(pedido)
 
-    let result = await gateway.findById(1);
+    const result = await gateway.findById(1)
 
-    expect(mockPedidoRepository.findById).toHaveBeenCalledTimes(1);
-    expect(mockPedidoRepository.findById).toHaveBeenCalledWith(1);
-    expect(result).toEqual(pedido);
+    expect(mockPedidoRepository.findById).toHaveBeenCalledTimes(1)
+    expect(mockPedidoRepository.findById).toHaveBeenCalledWith(1)
+    expect(result).toEqual(pedido)
   })
 })

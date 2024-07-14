@@ -1,5 +1,5 @@
 import Pedido from '@/core/domain/entities/pedido'
-import { PedidoStatusEnum } from "@/core/domain/enums/pedido-status.enum"
+import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 
 describe('Pedido class tests', () => {
   it('constructor class test', async () => {
@@ -12,7 +12,7 @@ describe('Pedido class tests', () => {
 
     const pedido = new Pedido(param)
 
-    expect(pedido).toBeInstanceOf(Pedido);
+    expect(pedido).toBeInstanceOf(Pedido)
   })
 
   it('create method test', async () => {
@@ -22,7 +22,7 @@ describe('Pedido class tests', () => {
 
   it('update method test', async () => {
     const pedido = Pedido.create(1, '1', PedidoStatusEnum.PREPARACAO, [], new Date(1), new Date(1))
-    pedido.update(PedidoStatusEnum.PRONTO);
-    expect(pedido.status).toEqual(PedidoStatusEnum.PRONTO);
+    pedido.update(PedidoStatusEnum.PRONTO)
+    expect(pedido.status).toEqual(PedidoStatusEnum.PRONTO)
   })
 })

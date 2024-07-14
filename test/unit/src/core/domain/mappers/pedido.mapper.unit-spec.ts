@@ -1,11 +1,11 @@
 import PedidoDto from '@/core/domain/dto/output/pedido.dto'
 import Pedido from '@/core/domain/entities/pedido'
+import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 import PedidoMapper from '@/core/domain/mappers/pedido.mapper'
-import { PedidoStatusEnum } from "@/core/domain/enums/pedido-status.enum"
 
 describe('Testing PedidoMapper Class', () => {
   it('toDto static method should receive Pedido Class and return PedidoDto class', () => {
-    const pedido = Pedido.create(1, '1', PedidoStatusEnum.PREPARACAO, [], new Date(1), new Date(1));
+    const pedido = Pedido.create(1, '1', PedidoStatusEnum.PREPARACAO, [], new Date(1), new Date(1))
     const dto = PedidoMapper.toDto(pedido)
     expect(dto.id).toEqual(1)
     expect(dto.consumidorId).toEqual('1')

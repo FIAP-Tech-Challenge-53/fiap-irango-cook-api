@@ -2,9 +2,9 @@ import { Repository } from 'typeorm'
 
 import PedidoDto from '@/core/domain/dto/output/pedido.dto'
 import Pedido from '@/core/domain/entities/pedido'
+import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 import PedidoMapper from '@/core/domain/mappers/pedido.mapper'
 import { Pedido as Entity } from '@/infra/persistence/typeorm/entities/pedido'
-import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 import PedidoTypeormRepository from '@/infra/persistence/typeorm/repository/pedido-typeorm.repository'
 
 describe('PedidoTypeormRepository class tests', () => {
@@ -58,14 +58,14 @@ describe('PedidoTypeormRepository class tests', () => {
       updatedAt: new Date(1)
     }
 
-    const pedido = new Pedido(dto);
+    const pedido = new Pedido(dto)
 
-    const entity = new Entity();
-    entity.consumidorId = dto.consumidorId;
-    entity.itens = dto.itens;
-    entity.status = dto.status;
-    entity.createdAt = dto.createdAt;
-    entity.updatedAt = dto.updatedAt;
+    const entity = new Entity()
+    entity.consumidorId = dto.consumidorId
+    entity.itens = dto.itens
+    entity.status = dto.status
+    entity.createdAt = dto.createdAt
+    entity.updatedAt = dto.updatedAt
 
     mockToDto.mockReturnValue(dto)
     toDomainEntity.mockReturnValue(pedido)
@@ -91,14 +91,14 @@ describe('PedidoTypeormRepository class tests', () => {
       updatedAt: new Date(1)
     }
 
-    const pedido = new Pedido(dto);
+    const pedido = new Pedido(dto)
 
-    const entity = new Entity();
-    entity.consumidorId = dto.consumidorId;
-    entity.itens = dto.itens;
-    entity.status = dto.status;
-    entity.createdAt = dto.createdAt;
-    entity.updatedAt = dto.updatedAt;
+    const entity = new Entity()
+    entity.consumidorId = dto.consumidorId
+    entity.itens = dto.itens
+    entity.status = dto.status
+    entity.createdAt = dto.createdAt
+    entity.updatedAt = dto.updatedAt
 
     mockToDto.mockReturnValue(dto)
     toDomainEntity.mockReturnValue(pedido)
@@ -114,7 +114,7 @@ describe('PedidoTypeormRepository class tests', () => {
     expect(result).toEqual(pedido)
   })
 
-  it("test findById when pedido is found", async () => {
+  it('test findById when pedido is found', async () => {
     const dto:PedidoDto = {
       id: 1,
       consumidorId: '1',
@@ -124,28 +124,27 @@ describe('PedidoTypeormRepository class tests', () => {
       updatedAt: new Date(1)
     }
 
-    const pedido = new Pedido(dto);
+    const pedido = new Pedido(dto)
 
-    const entity = new Entity();
-    entity.consumidorId = dto.consumidorId;
-    entity.itens = dto.itens;
-    entity.status = dto.status;
-    entity.createdAt = dto.createdAt;
-    entity.updatedAt = dto.updatedAt;
+    const entity = new Entity()
+    entity.consumidorId = dto.consumidorId
+    entity.itens = dto.itens
+    entity.status = dto.status
+    entity.createdAt = dto.createdAt
+    entity.updatedAt = dto.updatedAt
 
     queryBuilder.getOne.mockResolvedValue(entity)
     toDomainEntity.mockReturnValue(pedido)
 
-    let result = await pedidoTypeormRepository.findById(1)
+    const result = await pedidoTypeormRepository.findById(1)
 
     expect(toDomainEntity).toHaveBeenCalledTimes(1)
     expect(queryBuilder.getOne).toHaveBeenCalledTimes(1)
     expect(toDomainEntity).toHaveBeenCalledWith(entity)
-    expect(result).toEqual(pedido);
+    expect(result).toEqual(pedido)
+  })
 
-  });
-
-  it("test findById when pedido is not found", async () => {
+  it('test findById when pedido is not found', async () => {
     const dto:PedidoDto = {
       id: 1,
       consumidorId: '1',
@@ -155,22 +154,22 @@ describe('PedidoTypeormRepository class tests', () => {
       updatedAt: new Date(1)
     }
 
-    const entity = new Entity();
-    entity.consumidorId = dto.consumidorId;
-    entity.itens = dto.itens;
-    entity.status = dto.status;
-    entity.createdAt = dto.createdAt;
-    entity.updatedAt = dto.updatedAt;
+    const entity = new Entity()
+    entity.consumidorId = dto.consumidorId
+    entity.itens = dto.itens
+    entity.status = dto.status
+    entity.createdAt = dto.createdAt
+    entity.updatedAt = dto.updatedAt
 
     queryBuilder.getOne.mockResolvedValue(null)
-    let result = await pedidoTypeormRepository.findById(1)
+    const result = await pedidoTypeormRepository.findById(1)
 
     expect(toDomainEntity).toHaveBeenCalledTimes(0)
     expect(queryBuilder.getOne).toHaveBeenCalledTimes(1)
-    expect(result).toEqual(undefined);
-  });
+    expect(result).toEqual(undefined)
+  })
 
-  it("test find method", async () => {
+  it('test find method', async () => {
     const dto:PedidoDto = {
       id: 1,
       consumidorId: '1',
@@ -180,23 +179,23 @@ describe('PedidoTypeormRepository class tests', () => {
       updatedAt: new Date(1)
     }
 
-    const pedido = new Pedido(dto);
+    const pedido = new Pedido(dto)
 
-    const entity = new Entity();
-    entity.consumidorId = dto.consumidorId;
-    entity.itens = dto.itens;
-    entity.status = dto.status;
-    entity.createdAt = dto.createdAt;
-    entity.updatedAt = dto.updatedAt;
+    const entity = new Entity()
+    entity.consumidorId = dto.consumidorId
+    entity.itens = dto.itens
+    entity.status = dto.status
+    entity.createdAt = dto.createdAt
+    entity.updatedAt = dto.updatedAt
 
     queryBuilder.getMany.mockResolvedValue([entity])
     toDomainEntity.mockReturnValue(pedido)
 
-    let result = await pedidoTypeormRepository.find()
+    const result = await pedidoTypeormRepository.find()
 
     expect(toDomainEntity).toHaveBeenCalledTimes(1)
     expect(queryBuilder.getMany).toHaveBeenCalledTimes(1)
     expect(toDomainEntity).toHaveBeenCalledWith(entity)
-    expect(result).toEqual([pedido]);
-  });
+    expect(result).toEqual([pedido])
+  })
 })

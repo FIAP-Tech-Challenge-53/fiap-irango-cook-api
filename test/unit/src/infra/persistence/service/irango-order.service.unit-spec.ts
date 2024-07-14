@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-import { Environment as envs } from '@/infra/web/nestjs/environment'
 import IRangoOrderService from '@/infra/persistence/service/irango-order.service'
+import { Environment as envs } from '@/infra/web/nestjs/environment'
 
 describe('Test IRangoOrderService class', () => {
   let service:IRangoOrderService
@@ -38,16 +38,16 @@ describe('Test IRangoOrderService class', () => {
     expect(mockPost).toHaveBeenCalledWith(url)
   })
 
-  it("finishCooking method test without failing", async () => {
+  it('finishCooking method test without failing', async () => {
     const pedidoId = 1
     const url = `${envs.SERVICE_IRANGO_ORDER_API}/v1/pedidos/cook-webhook/finish/${pedidoId}`
     mockPost.mockImplementation(() => {})
     await service.finishCooking(pedidoId)
     expect(mockPost).toHaveBeenCalledTimes(1)
     expect(mockPost).toHaveBeenCalledWith(url)
-  });
+  })
 
-  it("finishCooking method test with failing", async () => {
+  it('finishCooking method test with failing', async () => {
     const pedidoId = 1
     const url = `${envs.SERVICE_IRANGO_ORDER_API}/v1/pedidos/cook-webhook/finish/${pedidoId}`
     mockPost.mockImplementation(() => {
@@ -56,5 +56,5 @@ describe('Test IRangoOrderService class', () => {
     await service.finishCooking(pedidoId)
     expect(mockPost).toHaveBeenCalledTimes(1)
     expect(mockPost).toHaveBeenCalledWith(url)
-  });
+  })
 })

@@ -29,19 +29,18 @@ describe('PedidosController class tests', () => {
       save: jest.fn(),
       find: jest.fn(),
       findById: jest.fn()
-    };
+    }
 
     mockOrderService = {
       startCooking: jest.fn(),
       finishCooking: jest.fn()
-    };
+    }
 
     PedidoController.prototype.register = mockRegisterHandler
     PedidoController.prototype.list = mockListHandler
     PedidoController.prototype.findById = mockFindByIdHandler
     PedidoController.prototype.startCooking = mockStartCookHandler
     PedidoController.prototype.finishCooking = mockFinishCookHandler
-
 
     controller = new PedidosController(mockPedidoRepository, mockOrderService)
   })
