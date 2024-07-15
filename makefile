@@ -5,6 +5,9 @@ NETWORK_ID=$(shell docker network ls -qf "name=${NETWORK_NAME}")
 
 CONTAINER_BACKEND = irango-cook-api
 
+.PHONY: tests
+tests: clean down add-network create.env.file build up migration.run-tests seed.run-tests test
+
 .PHONY: setup
 setup: clean down add-network create.env.file build up migration.run seed.run logs
 
