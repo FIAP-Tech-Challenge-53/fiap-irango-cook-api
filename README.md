@@ -98,10 +98,19 @@ We developed few endpoints which can be found in [consumidores.controller.ts](./
 9. Listar os pedidos
 > GET {irango_host}/v1/pedidos
 
+## Automated Tests
 ### Run all tests
 ```bash
 npm run test
 ```
+
+### Test Coverage
+```bash
+npm run test:coverage
+```
+
+<img src="./docs/test_suite.png" alt="Test Suite Coverage" width="900" />
+
 
 ## Make commands
 ### Using Docker
