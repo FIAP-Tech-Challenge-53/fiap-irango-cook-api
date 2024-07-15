@@ -1,9 +1,10 @@
-import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 import { ApiProperty } from '@nestjs/swagger'
+
+import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 
 export default class RegisterPedidoRequest {
   @ApiProperty({
-    example: 12345,
+    example: 1,
     description: 'ID do Pedido',
     type: Number,
     required: true,

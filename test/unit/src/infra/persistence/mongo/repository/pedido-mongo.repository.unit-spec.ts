@@ -1,18 +1,16 @@
-import { Repository } from 'typeorm'
+import { Model } from 'mongoose'
 
 import PedidoDto from '@/core/domain/dto/output/pedido.dto'
 import Pedido from '@/core/domain/entities/pedido'
 import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 import PedidoMapper from '@/core/domain/mappers/pedido.mapper'
-import { Pedido as Entity } from '@/infra/persistence/typeorm/entities/pedido'
-import PedidoTypeormRepository from '@/infra/persistence/typeorm/repository/pedido-typeorm.repository'
+import { Pedido as Entity } from '@/infra/persistence/mongo/entities/pedido'
+import PedidoMongoRepository from '@/infra/persistence/mongo/repository/pedido-mongo.repository'
 
-describe('PedidoTypeormRepository class tests', () => {
-  let pedidoTypeormRepository:PedidoTypeormRepository
+describe('PedidoMongoRepository class tests', () => {
+  let pedidoMongoRepository: PedidoMongoRepository
 
-  let repository:jest.Mocked<Repository<Entity>>
-
-  let queryBuilder:any
+  let model:jest.Mocked<Model<Pedido>>
 
   let mockToDto:jest.Mock<any>
   let toDomainEntity:jest.Mock<any>
@@ -21,31 +19,27 @@ describe('PedidoTypeormRepository class tests', () => {
     mockToDto = jest.fn()
     toDomainEntity = jest.fn()
 
-    queryBuilder = {
-      leftJoinAndSelect: () => queryBuilder,
-      where: () => queryBuilder,
-      orderBy: () => queryBuilder,
-      addOrderBy: () => queryBuilder,
-      getOne: jest.fn(),
-      getMany: jest.fn(),
-    }
-
-    repository = {
-      save: jest.fn(),
-      findOne: jest.fn(),
-      update: jest.fn(),
-      find: jest.fn(),
-      createQueryBuilder: () => queryBuilder
-    } as unknown as jest.Mocked<Repository<Entity>>
+    model = {
+      create: jest.fn(),
+      findOne: jest.fn().mockReturnValue({
+        exec: jest.fn()
+      }),
+      updateOne: jest.fn(),
+      find: jest.fn().mockReturnValue(() => ({
+        sort: jest.fn().mockReturnValue(() => ({
+          exec: jest.fn()
+        }))
+      }))
+    } as any
 
     PedidoMapper.toDto = mockToDto
     PedidoMapper.toDomainEntity = toDomainEntity
 
-    pedidoTypeormRepository = new PedidoTypeormRepository(repository)
+    pedidoMongoRepository = new PedidoMongoRepository(model)
   })
 
   it('constructor class test', async () => {
-    expect(pedidoTypeormRepository).toBeInstanceOf(PedidoTypeormRepository)
+    expect(pedidoMongoRepository).toBeInstanceOf(PedidoMongoRepository)
   })
 
   it('create method test', async () => {
@@ -69,16 +63,15 @@ describe('PedidoTypeormRepository class tests', () => {
 
     mockToDto.mockReturnValue(dto)
     toDomainEntity.mockReturnValue(pedido)
-    repository.save.mockResolvedValue(entity)
 
-    const result = await pedidoTypeormRepository.create(pedido)
-    expect(mockToDto).toHaveBeenCalledTimes(1)
-    expect(toDomainEntity).toHaveBeenCalledTimes(1)
-    expect(repository.save).toHaveBeenCalledTimes(1)
-    expect(mockToDto).toHaveBeenCalledWith(pedido)
-    expect(toDomainEntity).toHaveBeenCalledWith(entity)
-    expect(repository.save).toHaveBeenCalledWith(dto)
-    expect(result).toEqual(pedido)
+    model.findOne.mockReturnValue({
+      exec: jest.fn().mockReturnValue(undefined)
+    } as any)
+    model.create.mockResolvedValue(entity as any)
+
+    const result = await pedidoMongoRepository.create(pedido)
+    expect(model.create).toHaveBeenCalledWith(dto)
+    expect(result).toMatchObject(pedido)
   })
 
   it('save method test', async () => {
@@ -102,16 +95,17 @@ describe('PedidoTypeormRepository class tests', () => {
 
     mockToDto.mockReturnValue(dto)
     toDomainEntity.mockReturnValue(pedido)
-    repository.save.mockResolvedValue(entity)
 
-    const result = await pedidoTypeormRepository.save(pedido)
-    expect(mockToDto).toHaveBeenCalledTimes(1)
-    expect(toDomainEntity).toHaveBeenCalledTimes(1)
-    expect(repository.save).toHaveBeenCalledTimes(1)
-    expect(mockToDto).toHaveBeenCalledWith(pedido)
-    expect(toDomainEntity).toHaveBeenCalledWith(entity)
-    expect(repository.save).toHaveBeenCalledWith(dto)
-    expect(result).toEqual(pedido)
+    model.findOne.mockReturnValue({
+      exec: jest.fn().mockReturnValue(entity)
+    } as any)
+    model.updateOne.mockReturnValue({
+      exec: jest.fn().mockReturnValue(entity)
+    } as any)
+
+    const result = await pedidoMongoRepository.save(pedido)
+    expect(model.updateOne).toHaveBeenCalled()
+    expect(result).toMatchObject(pedido)
   })
 
   it('test findById when pedido is found', async () => {
@@ -133,15 +127,14 @@ describe('PedidoTypeormRepository class tests', () => {
     entity.createdAt = dto.createdAt
     entity.updatedAt = dto.updatedAt
 
-    queryBuilder.getOne.mockResolvedValue(entity)
     toDomainEntity.mockReturnValue(pedido)
+    model.findOne.mockReturnValue({
+      exec: jest.fn().mockReturnValue(entity)
+    } as any)
 
-    const result = await pedidoTypeormRepository.findById(1)
+    const result = await pedidoMongoRepository.findById(1)
 
-    expect(toDomainEntity).toHaveBeenCalledTimes(1)
-    expect(queryBuilder.getOne).toHaveBeenCalledTimes(1)
-    expect(toDomainEntity).toHaveBeenCalledWith(entity)
-    expect(result).toEqual(pedido)
+    expect(result).toMatchObject(pedido)
   })
 
   it('test findById when pedido is not found', async () => {
@@ -161,11 +154,9 @@ describe('PedidoTypeormRepository class tests', () => {
     entity.createdAt = dto.createdAt
     entity.updatedAt = dto.updatedAt
 
-    queryBuilder.getOne.mockResolvedValue(null)
-    const result = await pedidoTypeormRepository.findById(1)
+    const result = await pedidoMongoRepository.findById(1)
 
     expect(toDomainEntity).toHaveBeenCalledTimes(0)
-    expect(queryBuilder.getOne).toHaveBeenCalledTimes(1)
     expect(result).toEqual(undefined)
   })
 
@@ -188,14 +179,13 @@ describe('PedidoTypeormRepository class tests', () => {
     entity.createdAt = dto.createdAt
     entity.updatedAt = dto.updatedAt
 
-    queryBuilder.getMany.mockResolvedValue([entity])
     toDomainEntity.mockReturnValue(pedido)
+    model.find.mockReturnValue({
+      sort: jest.fn().mockReturnValue({ exec: jest.fn().mockReturnValue([entity]) })
+    } as any)
 
-    const result = await pedidoTypeormRepository.find()
+    const result = await pedidoMongoRepository.find()
 
-    expect(toDomainEntity).toHaveBeenCalledTimes(1)
-    expect(queryBuilder.getMany).toHaveBeenCalledTimes(1)
-    expect(toDomainEntity).toHaveBeenCalledWith(entity)
-    expect(result).toEqual([pedido])
+    expect(result).toMatchObject([pedido])
   })
 })

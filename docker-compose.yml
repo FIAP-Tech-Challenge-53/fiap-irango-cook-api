@@ -1,7 +1,7 @@
 version: '2.2'
 services:
-  service-irango-cook-api:
-    container_name: service-irango-cook-api
+  irango-cook-api:
+    container_name: irango-cook-api
     cpus: 2
     mem_limit: 2000m
     environment:

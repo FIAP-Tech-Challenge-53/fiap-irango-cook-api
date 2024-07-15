@@ -4,7 +4,7 @@ import PedidoDto from '@/core/domain/dto/output/pedido.dto'
 import { PedidoStatusEnum } from '@/core/domain/enums/pedido-status.enum'
 
 export default class PedidoResponse implements PedidoDto {
-  @ApiProperty({ description: 'ID', type: String,  example: 12345 })
+  @ApiProperty({ description: 'ID', type: String, example: 1 })
   readonly id: number
 
   @ApiProperty({

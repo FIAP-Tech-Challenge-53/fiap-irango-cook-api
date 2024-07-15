@@ -9,7 +9,6 @@
 ![jest](https://shields.io/badge/Jest-C21325?logo=Jest&logoColor=FFF&style=flat-square)
 ![eslint](https://shields.io/badge/ESLint-4B32C3?logo=ESLint&logoColor=FFF&style=flat-square)
 ![editorconfig](https://shields.io/badge/EditorConfig-000000?logo=EditorConfig&logoColor=FFF&style=flat-square)
-![typeorm](https://shields.io/badge/TypeORM-F37626?logo=TypeORM&logoColor=FFF&style=flat-square)
 
 This project involves the development of an API for a fast food self-service system, proposed as a Tech Challenge for the Software Architecture Postgraduate Course at FIAP.
 
@@ -47,8 +46,8 @@ docker network create -d bridge local-network
 cp .env.example .env
 docker compose build --progress=plain
 docker compose up
-docker compose exec -it service-irango-cook-api npm run migration:run
-docker compose exec -it service-irango-cook-api npm run seed:run
+docker compose exec -it irango-cook-api npm run migration:run
+docker compose exec -it irango-cook-api npm run seed:run
 ```
 
 ## Start project using npm
@@ -99,41 +98,9 @@ We developed few endpoints which can be found in [consumidores.controller.ts](./
 9. Listar os pedidos
 > GET {irango_host}/v1/pedidos
 
-## Automated Tests
-We developed integration tests which can be run using docker or in directly in local machine (in this case you need change the `DB_HOSTNAME` env to `localhost`). Before run the tests, we need to create the test database using:
+### Run all tests
 ```bash
-make test.integration.createdb
-
-# or try without make
-docker exec -it ${CONTAINER_MYSQL} mysql -uroot -ppassword -e "DROP DATABASE IF EXISTS ${DATABASE}_test; CREATE DATABASE ${DATABASE}_test;"
-docker compose exec -it ${CONTAINER_BACKEND} npm run migration:run:test
-```
-
-### Run all tests (We just have integrations for while)
-```bash
-# With docker
-docker compose run service-irango-cook-api npm run test
-
-# local
 npm run test
-```
-
-### Run only integration tests
-```bash
-# With docker
-docker compose run service-irango-cook-api npm run test:integration
-
-# local
-npm run test:integration
-```
-
-### Run a specifc test file
-```bash
-# With docker
-docker compose run service-irango-cook-api npm run test:integration:one <FILE_NAME>
-
-# local
-npm run test:integration:one <FILE_NAME>
 ```
 
 ## Make commands
