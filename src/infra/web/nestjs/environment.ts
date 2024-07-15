@@ -13,58 +13,38 @@ export class Environment {
   }
 
   static get PORT () {
-    return process.env.PORT || 3000
+    return process.env.PORT || 3003
   }
 
   static get SENTRY_DSN () {
     return process.env.SENTRY_DSN || ''
   }
 
-  static get DB_HOSTNAME () {
-    return process.env.DB_HOSTNAME || 'localhost'
+  static get MONGO_HOSTNAME () {
+    return process.env.MONGO_HOSTNAME || 'localhost'
   }
 
-  static get DB_PORT (): number {
-    return Number(process.env.DB_PORT) || 3306
+  static get MONGO_PORT (): number {
+    return Number(process.env.MONGO_PORT)
   }
 
-  static get DB_USERNAME () {
-    return process.env.DB_USERNAME || 'root'
+  static get MONGO_DATABASE () {
+    return process.env.MONGO_DATABASE || 'irango_cook'
   }
 
-  static get DB_PASSWORD () {
-    return process.env.DB_PASSWORD || 'password'
+  static get MONGO_USERNAME () {
+    return process.env.MONGO_USERNAME || 'root'
   }
 
-  static get DB_DATABASE () {
-    return process.env.DB_DATABASE || 'irango'
-  }
-
-  static get DB_CONNECTION_LIMIT (): number {
-    return Number(process.env.DB_CONNECTION_LIMIT) || 10000
+  static get MONGO_PASSWORD () {
+    return process.env.MONGO_PASSWORD || 'password'
   }
 
   static get DB_CONNECTION_TIMEOUT (): number {
     return Number(process.env.DB_CONNECTION_TIMEOUT) || 30000
   }
 
-  static get REDIS_HOSTNAME () {
-    return process.env.REDIS_HOSTNAME || 'localhost'
-  }
-
-  static get REDIS_PORT (): number {
-    return Number(process.env.REDIS_PORT) || 6379
-  }
-
-  static get REDIS_DB (): number {
-    return Number(process.env.REDIS_DB) || 0
-  }
-
-  static get REDIS_ENABLED (): boolean {
-    return process.env.REDIS_ENABLED === 'true'
-  }
-
-  static get CACHE_ENABLED (): boolean {
-    return process.env.CACHE_ENABLED === 'true'
+  static get SERVICE_IRANGO_ORDER_API () {
+    return process.env.SERVICE_IRANGO_ORDER_API || 'http://localhost:3001'
   }
 }

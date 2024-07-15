@@ -1,33 +1,23 @@
 import { Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { MongooseModule } from '@nestjs/mongoose'
 
 import { IPedidoRepository } from '@/core/domain/repositories/ipedido.repository'
-import { IPagamentoService } from '@/core/domain/services/ipagamento.service'
-import MercadoPagoPagamentoService from '@/infra/persistence/service/mercado-pago-payment.service'
-import { ItemPedido } from '@/infra/persistence/typeorm/entities/item-pedido'
-import { Pedido } from '@/infra/persistence/typeorm/entities/pedido'
-import PedidoTypeormRepository from '@/infra/persistence/typeorm/repository/pedido-typeorm.repository'
-import ConsumidoresModule from '@/infra/web/nestjs/consumidores/consumidores.module'
+import { IOrderService } from '@/core/domain/services/iorder.service'
+import { Pedido, PedidoSchema } from '@/infra/persistence/mongo/entities/pedido'
+import PedidoMongoRepository from '@/infra/persistence/mongo/repository/pedido-mongo.repository'
+import IRangoOrderService from '@/infra/persistence/service/irango-order.service'
 import PedidosController from '@/infra/web/nestjs/pedidos/pedidos.controller'
-import ProdutosModule from '@/infra/web/nestjs/produtos/produtos.module'
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      Pedido,
-      ItemPedido,
-    ]),
-
-    ProdutosModule,
-    ConsumidoresModule,
+    MongooseModule.forFeature([{ name: Pedido.name, schema: PedidoSchema }]),
   ],
   providers: [
-    { provide: IPedidoRepository, useClass: PedidoTypeormRepository },
-    { provide: IPagamentoService, useClass: MercadoPagoPagamentoService },
-
+    { provide: IPedidoRepository, useClass: PedidoMongoRepository },
+    { provide: IOrderService, useClass: IRangoOrderService },
   ],
   controllers: [
-    PedidosController
+    PedidosController,
   ],
 })
 export default class PedidosModule {}
