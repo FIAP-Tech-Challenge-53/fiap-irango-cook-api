@@ -14,7 +14,7 @@ This project is a part of a fast food self-service system, proposed as a Tech Ch
 
 For this project, we utilized the [TypeScript](https://www.typescriptlang.org/) programming language with [Node.js](https://nodejs.org/) and the [Nest.js](https://nestjs.com/) framework. For the database management, we use a [MongoDB 7.0](https://www.mongodb.com/) to handle information related to Cooking process.
 
-To build the API documentation, we've used [Swagger](https://swagger.io/) tool integrated with Nest.js, accessible through the endpoint: {irango_cook_host}/docs
+To build the API documentation, we've used [Swagger](https://swagger.io/) tool integrated with Nest.js, accessible through the endpoint: {irango_cook_host}/docs.
 
 ## Workspace Dependencies
 - [Node 20.10](https://nodejs.org/)
