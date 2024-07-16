@@ -2,7 +2,7 @@
 ![typescript](https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=flat-square)
 ![Node 20.10](https://shields.io/badge/Node-20.10.0-339933?logo=Node.js&logoColor=FFF&style=flat-square)
 ![nestjs](https://shields.io/badge/NestJS-E0234E?logo=NestJS&logoColor=FFF&style=flat-square)
-![mysql](https://shields.io/badge/MySQL-4479A1?logo=MySQL&logoColor=FFF&style=flat-square)
+![mongodb](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=FFF&style=flat-square)
 ![docker](https://shields.io/badge/Docker-2496ED?logo=Docker&logoColor=FFF&style=flat-square)
 ![swagger](https://shields.io/badge/Swagger-85EA2D?logo=Swagger&logoColor=FFF&style=flat-square)
 ![make](https://shields.io/badge/Make-00CC00?logo=Make&logoColor=FFF&style=flat-square)
@@ -10,13 +10,11 @@
 ![eslint](https://shields.io/badge/ESLint-4B32C3?logo=ESLint&logoColor=FFF&style=flat-square)
 ![editorconfig](https://shields.io/badge/EditorConfig-000000?logo=EditorConfig&logoColor=FFF&style=flat-square)
 
-This project involves the development of an API for a fast food self-service system, proposed as a Tech Challenge for the Software Architecture Postgraduate Course at FIAP.
+This project is a part of a fast food self-service system, proposed as a Tech Challenge for the Software Architecture Postgraduate Course at FIAP.
 
-For this project, we utilized the [TypeScript](https://www.typescriptlang.org/) programming language with [Node.js](https://nodejs.org/) and the [Nest.js](https://nestjs.com/) framework. The database management includes [MySQL 5.7](https://www.mysql.com/) to handle information related to Cooking process.
+For this project, we utilized the [TypeScript](https://www.typescriptlang.org/) programming language with [Node.js](https://nodejs.org/) and the [Nest.js](https://nestjs.com/) framework. For the database management, we use a [MongoDB 7.0](https://www.mongodb.com/) to handle information related to Cooking process.
 
-To build the API documentation, we've used [Swagger](https://swagger.io/) tool integrated with Nest.js, accessible through the endpoint: {irango_host}/docs
-
-## [DDD - Domain Driven Design Diagrams](./docs/domain-driven-design.md)
+To build the API documentation, we've used [Swagger](https://swagger.io/) tool integrated with Nest.js, accessible through the endpoint: {irango_cook_host}/docs
 
 ## Workspace Dependencies
 - [Node 20.10](https://nodejs.org/)
@@ -30,11 +28,15 @@ To build the API documentation, we've used [Swagger](https://swagger.io/) tool i
   ```
 
 ## Project Dependencies
-Install project dependencies with:
+* Install project dependencies with:
 ```bash
 npm run install
 ```
 
+* Create a MongoDB database or start [fiap-irango-database/docker-compose.yml](https://github.com/FIAP-Tech-Challenge-53/fiap-irango-database/blob/main/docker-compose.yml) file.
+
+* Start [fiap-irango-order-api](https://github.com/FIAP-Tech-Challenge-53/fiap-irango-order-api) service. It can be run after fiap-irango-cook-api starts.
+ 
 ## Start Project using Docker
 Configure all docker containers and volumes and start the application
 ```bash
@@ -42,12 +44,9 @@ make setup
 
 # or try without make
 
-docker network create -d bridge local-network
 cp .env.example .env
 docker compose build --progress=plain
 docker compose up
-docker compose exec -it irango-cook-api npm run migration:run
-docker compose exec -it irango-cook-api npm run seed:run
 ```
 
 ## Start project using npm
@@ -62,41 +61,20 @@ npm run build
 npm run start
 ```
 
-Migrations and Seeds:
-```bash
-npm run migration:run
-npm run seed:run
-```
-
-## How to Use
-We developed a seed to populate database with some products and one Consumidor with CPF `123.456.789-00`. You can use it or create a new Consumidor.
-
 ## Endpoints
-We developed few endpoints which can be found in [consumidores.controller.ts](./src/adapter/driver/nestjs/consumidores/consumidores.controller.ts), [produtos.controller.ts](./src/adapter/driver/nestjs/produtos/produtos.controller.ts) and [pedidos.controller.ts](./src/adapter/driver/nestjs/pedidos/pedidos.controller.ts) files
+We developed few endpoints which can be found in [pedidos.controller](./src/infra/web/nestjs/pedidos/pedidos.controller.ts) file
 
 ## Business Requirements:
-1. Cadastro do Cliente
-> POST {irango_host}/v1/consumidores
-2. Identificação do Cliente via CPF
-> GET {irango_host}/v1/consumidores/cpf
-3. Criar, editar e remover de produto
-> POST {irango_host}/v1/produtos
-
-> PUT {irango_host}/v1/produtos/:id
-
-> DELETE {irango_host}/v1/produtos/:id
-4. Buscar produtos por categoria
-> GET {irango_host}/v1/produtos/categorias/:termo
-5. Checkout
-> POST {irango_host}/v1/pedidos
-6. Verificar status do Pedido
-> GET {irango_host}/v1/pedidos/:id
-7. Atualizar status do pedido
-> PUT {irango_host}/v1/produtos/:id
-8. Webhook de Pagamento (Mercado Pago)
-> POST {irango_host}/v1/pedidos/pagamento-webhook/mercado-pago
-9. Listar os pedidos
-> GET {irango_host}/v1/pedidos
+1. Registrar novo pedido
+> POST {irango_cook_host}/v1/pedidos/register
+2. Listar pedidos em aberto
+> GET {irango_cook_host}/v1/pedidos
+3. Buscar um pedido por ID
+> POST {irango_cook_host}/v1/pedidos/id
+4. Informar o início do preparo de um pedido
+> POST {irango_cook_host}/v1/pedidos/:id/start
+5. Informar o término do preparo de um pedido
+> POST {irango_cook_host}/v1/pedidos/:id/finish
 
 ## Automated Tests
 ### Run all tests
@@ -118,8 +96,4 @@ npm run test:coverage
 - Start Project: `make up`
 - Stop Projects: `make down`
 - Show logs: `make logs`
-- Add Migration: `make migration.generate name=MigrationName`
-- Run Migrations: `make migration.run`
-- Add Seed: `make seed.generate name=SeedName`
-- Run Seeds: `make seed.run`
 - Access container bash: `make bash`
