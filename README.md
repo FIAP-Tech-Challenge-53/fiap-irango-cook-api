@@ -77,9 +77,9 @@ We developed few endpoints which can be found in [pedidos.controller](./src/infr
 > POST {irango_cook_host}/v1/pedidos/:id/finish
 
 ## Automated Tests
-### Run all tests
+### Unit Tests
 ```bash
-npm run test
+npm run test:unit
 ```
 
 ### Test Coverage
