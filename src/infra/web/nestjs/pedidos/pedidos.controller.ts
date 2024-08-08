@@ -1,14 +1,11 @@
 import {
-  Body,
   Controller,
   Get,
-  HttpCode,
-  HttpStatus,
   Inject,
   Param,
   Post
 } from '@nestjs/common'
-import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger'
+import { ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger'
 
 import IPedidoRepository, {
   IPedidoRepository as IPedidoRepositorySymbol,
@@ -18,8 +15,6 @@ import IOrderService, {
 } from '@/core/domain/services/iorder.service'
 import { PedidoController } from '@/core/operation/controllers/pedido.controller'
 import PedidoResponse from '@/infra/web/nestjs/pedidos/dto/pedido.response'
-import RegisterPedidoRequest from '@/infra/web/nestjs/pedidos/dto/register-pedido.request'
-import RegisterPedidoResponse from '@/infra/web/nestjs/pedidos/dto/register-pedido.response'
 
 @Controller('v1/pedidos')
 @ApiTags('v1/pedidos')
@@ -28,22 +23,6 @@ export default class PedidosController {
     @Inject(IPedidoRepositorySymbol) private readonly repository: IPedidoRepository,
     @Inject(IOrderServiceSymbol) private readonly orderService: IOrderService,
   ) {}
-
-  @Post('/register')
-  @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'Registra um novo pedido e o associa a um novo Pagamento' })
-  @ApiBody({ type: RegisterPedidoRequest })
-  @ApiCreatedResponse({ description: 'Registro criado', type: RegisterPedidoResponse })
-  registerPedido (
-    @Body() input: RegisterPedidoRequest
-  ): Promise<RegisterPedidoResponse> {
-    const controller = new PedidoController(
-      this.repository,
-      this.orderService,
-    )
-
-    return controller.register(input)
-  }
 
   @Get()
   @ApiOperation({ summary: 'Listar todos os Pedidos' })

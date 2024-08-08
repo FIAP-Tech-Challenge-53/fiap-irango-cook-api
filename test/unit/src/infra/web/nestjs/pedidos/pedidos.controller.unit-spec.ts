@@ -1,7 +1,6 @@
 import IPedidoRepository from '@/core/domain/repositories/ipedido.repository'
 import IOrderService from '@/core/domain/services/iorder.service'
 import { PedidoController } from '@/core/operation/controllers/pedido.controller'
-import RegisterPedidoRequest from '@/infra/web/nestjs/pedidos/dto/register-pedido.request'
 import RegisterPedidoResponse from '@/infra/web/nestjs/pedidos/dto/register-pedido.response'
 import PedidosController from '@/infra/web/nestjs/pedidos/pedidos.controller'
 
@@ -47,16 +46,6 @@ describe('PedidosController class tests', () => {
 
   it('constructor class test', async () => {
     expect(controller).toBeInstanceOf(PedidosController)
-  })
-
-  it('registerPedido method test', async () => {
-    const input = new RegisterPedidoRequest()
-    const response = new RegisterPedidoResponse()
-    mockRegisterHandler.mockResolvedValue(response)
-    const result = await controller.registerPedido(input)
-    expect(mockRegisterHandler).toHaveBeenCalledTimes(1)
-    expect(mockRegisterHandler).toHaveBeenCalledWith(input)
-    expect(result).toEqual(response)
   })
 
   it('list method test', async () => {

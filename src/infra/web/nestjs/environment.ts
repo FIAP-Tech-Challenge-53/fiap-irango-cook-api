@@ -44,7 +44,23 @@ export class Environment {
     return Number(process.env.DB_CONNECTION_TIMEOUT) || 30000
   }
 
-  static get SERVICE_IRANGO_ORDER_API () {
-    return process.env.SERVICE_IRANGO_ORDER_API || 'http://localhost:3001'
+  static get AWS_REGION () {
+    return process.env.AWS_REGION || 'us-east-1'
+  }
+
+  static get AWS_ACCESS_KEY_ID () {
+    return process.env.AWS_ACCESS_KEY_ID || 'qualquercoisa'
+  }
+
+  static get AWS_SECRET_ACCESS_KEY () {
+    return process.env.AWS_SECRET_ACCESS_KEY || 'qualquercoisa'
+  }
+
+  static get SNS_TOPIC_COOKING_STARTED () {
+    return process.env.SNS_TOPIC_COOKING_STARTED || 'arn:aws:sns:us-east-1:000000000000:fiap-irango-cook_cooking-started_dev'
+  }
+
+  static get SNS_TOPIC_COOKING_FINISHED () {
+    return process.env.SNS_TOPIC_COOKING_FINISHED || 'arn:aws:sns:us-east-1:000000000000:fiap-irango-cook_cooking-finished_dev'
   }
 }

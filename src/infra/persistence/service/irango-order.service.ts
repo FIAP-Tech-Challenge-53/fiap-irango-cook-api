@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
 
-import axios from 'axios'
+import { PublishCommand, SNSClient } from '@aws-sdk/client-sns'
 
+import AwsConfig from '@/config/AwsConfig'
 import IOrderService from '@/core/domain/services/iorder.service'
 import { Environment as envs } from '@/infra/web/nestjs/environment'
 
@@ -13,24 +14,34 @@ export default class IRangoOrderService implements IOrderService {
   async startCooking (pedidoId: number): Promise<void> {
     console.log(`Confirm cooking start for order with ID ${pedidoId} at IRango Order Service`)
 
-    const url = `${envs.SERVICE_IRANGO_ORDER_API}/v1/pedidos/cook-webhook/start/${pedidoId}`
     try {
-      await axios.post(url)
+      const client = new SNSClient(AwsConfig)
+      const command = new PublishCommand({
+        TopicArn: envs.SNS_TOPIC_COOKING_STARTED,
+        Message: JSON.stringify({ pedidoId })
+      })
+
+      await client.send(command)
     } catch (error) {
-      console.log(`Error: ${error}`)
-      console.log(error.response?.data)
+      console.error(`Error: ${error}`)
+      console.error(error)
     }
   }
 
   async finishCooking (pedidoId: number): Promise<void> {
     console.log(`Confirm cooking finish for order with ID ${pedidoId} at IRango Order Service`)
 
-    const url = `${envs.SERVICE_IRANGO_ORDER_API}/v1/pedidos/cook-webhook/finish/${pedidoId}`
     try {
-      await axios.post(url)
+      const client = new SNSClient(AwsConfig)
+      const command = new PublishCommand({
+        TopicArn: envs.SNS_TOPIC_COOKING_FINISHED,
+        Message: JSON.stringify({ pedidoId })
+      })
+
+      await client.send(command)
     } catch (error) {
-      console.log(`Error: ${error}`)
-      console.log(error.response?.data)
+      console.error(`Error: ${error}`)
+      console.error(error)
     }
   }
 }
