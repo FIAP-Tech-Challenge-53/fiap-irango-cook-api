@@ -2,17 +2,22 @@ import { Global, Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 
 import MongoConfig from '@/config/mongo/MongoConfig'
+import QueueConfig from '@/config/QueueConfig'
 import AppController from '@/infra/web/nestjs/app.controller'
 import PedidosModule from '@/infra/web/nestjs/pedidos/pedidos.module'
+import { SqsModule } from '@ssut/nestjs-sqs'
 
 export const appModules = [
   PedidosModule,
 ]
 
+console.log(MongoConfig)
 @Global()
 @Module({
   imports: [
     MongooseModule.forRoot(MongoConfig),
+    SqsModule.register(QueueConfig),
+
     ...appModules
   ],
   controllers: [

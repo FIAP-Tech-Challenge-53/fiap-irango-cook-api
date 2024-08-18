@@ -1,3 +1,4 @@
+import Confirm from '@/core/application/usecase/pedido/confirm.use-case'
 import FindById from '@/core/application/usecase/pedido/findById.use-case'
 import FinishCooking from '@/core/application/usecase/pedido/finishCooking.use-case'
 import List from '@/core/application/usecase/pedido/list.use-case'
@@ -34,6 +35,17 @@ export class PedidoController {
     const pedidos = await useCase.handle()
     return pedidos.map((pedido) => PedidoMapper.toDto(pedido))
   }
+
+  async confirm (
+    id: number
+ ): Promise<PedidoDto> {
+   const useCase = new Confirm(
+     new PedidoGateway(this.repository),
+   )
+
+   const pedido = await useCase.handle(id)
+   return PedidoMapper.toDto(pedido)
+ }
 
   async findById (
     id: number,

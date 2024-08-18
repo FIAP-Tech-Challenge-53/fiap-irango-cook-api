@@ -21,7 +21,7 @@ export class Environment {
   }
 
   static get MONGO_HOSTNAME () {
-    return process.env.MONGO_HOSTNAME || 'localhost'
+    return process.env.MONGO_HOSTNAME || '10.11.0.14'
   }
 
   static get MONGO_PORT (): number {
@@ -62,5 +62,17 @@ export class Environment {
 
   static get SNS_TOPIC_COOKING_FINISHED () {
     return process.env.SNS_TOPIC_COOKING_FINISHED || 'arn:aws:sns:us-east-1:000000000000:fiap-irango-cook_cooking-finished_dev'
+  }
+
+  static get CONFIRM_PAYMENT_QUEUE () {
+    return process.env.CONFIRM_PAYMENT_QUEUE || 'fiap-irango-cook_payment-confirmed_dev'
+  }
+
+  static get CREATED_ORDER_QUEUE() {
+    return process.env.CREATED_ORDER_QUEUE || 'fiap-irango-cook_order-created_dev'
+  }
+
+  static get URL_QUEUE() {
+    return process.env.URL_QUEUE || 'http://localhost:4566/000000000000/'
   }
 }
