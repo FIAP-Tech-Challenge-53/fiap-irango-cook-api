@@ -96,13 +96,53 @@ describe('Test for static methods of Environment class', () => {
     expect(Environment.MONGO_DATABASE).toEqual('irango_cook')
   })
 
-  it('test get SERVICE_IRANGO_ORDER_API method', () => {
-    process.env.SERVICE_IRANGO_ORDER_API = 'test'
-    expect(Environment.SERVICE_IRANGO_ORDER_API).toEqual('test')
+  it('test get AWS_REGION method', () => {
+    process.env.AWS_REGION = 'test'
+    expect(Environment.AWS_REGION).toEqual('test')
   })
 
-  it('test get SERVICE_IRANGO_ORDER_API method when SERVICE_IRANGO_ORDER_API is not defined', () => {
-    delete process.env.SERVICE_IRANGO_ORDER_API
-    expect(Environment.SERVICE_IRANGO_ORDER_API).toEqual('http://localhost:3001')
+  it('test get AWS_REGION method default value', () => {
+    delete process.env.AWS_REGION
+    expect(Environment.AWS_REGION).toEqual('us-east-1')
+  })
+
+  it('test get AWS_ACCESS_KEY_ID method', () => {
+    process.env.AWS_ACCESS_KEY_ID = 'test'
+    expect(Environment.AWS_ACCESS_KEY_ID).toEqual('test')
+  })
+
+  it('test get AWS_ACCESS_KEY_ID method default value', () => {
+    delete process.env.AWS_ACCESS_KEY_ID
+    expect(Environment.AWS_ACCESS_KEY_ID).toEqual('qualquercoisa')
+  })
+
+  it('test get AWS_SECRET_ACCESS_KEY method', () => {
+    process.env.AWS_SECRET_ACCESS_KEY = 'test'
+    expect(Environment.AWS_SECRET_ACCESS_KEY).toEqual('test')
+  })
+
+  it('test get AWS_SECRET_ACCESS_KEY method default value', () => {
+    delete process.env.AWS_SECRET_ACCESS_KEY
+    expect(Environment.AWS_SECRET_ACCESS_KEY).toEqual('qualquercoisa')
+  })
+
+  it('test get SNS_TOPIC_COOKING_STARTED method', () => {
+    process.env.SNS_TOPIC_COOKING_STARTED = 'test'
+    expect(Environment.SNS_TOPIC_COOKING_STARTED).toEqual('test')
+  })
+
+  it('test get SNS_TOPIC_COOKING_STARTED method default value', () => {
+    delete process.env.SNS_TOPIC_COOKING_STARTED
+    expect(Environment.SNS_TOPIC_COOKING_STARTED).toEqual('arn:aws:sns:us-east-1:000000000000:fiap-irango-cook_cooking-started_dev')
+  })
+
+  it('test get SNS_TOPIC_COOKING_FINISHED method', () => {
+    process.env.SNS_TOPIC_COOKING_FINISHED = 'test'
+    expect(Environment.SNS_TOPIC_COOKING_FINISHED).toEqual('test')
+  })
+
+  it('test get SNS_TOPIC_COOKING_FINISHED method default value', () => {
+    delete process.env.SNS_TOPIC_COOKING_FINISHED
+    expect(Environment.SNS_TOPIC_COOKING_FINISHED).toEqual('arn:aws:sns:us-east-1:000000000000:fiap-irango-cook_cooking-finished_dev')
   })
 })
