@@ -21,7 +21,7 @@ export class Environment {
   }
 
   static get MONGO_HOSTNAME () {
-    return process.env.MONGO_HOSTNAME || '10.11.0.14'
+    return process.env.MONGO_HOSTNAME || 'localhost'
   }
 
   static get MONGO_PORT (): number {
