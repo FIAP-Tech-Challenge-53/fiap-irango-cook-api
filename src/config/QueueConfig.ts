@@ -1,7 +1,7 @@
 
-import { Environment } from '@/infra/web/nestjs/environment';
 import { SqsOptions } from '@ssut/nestjs-sqs/dist/sqs.types'
 
+import { Environment } from '@/infra/web/nestjs/environment'
 
 const config = {
   consumers: [
@@ -19,4 +19,4 @@ const config = {
   producers: [],
 } as SqsOptions
 
-export default config;
+export default config

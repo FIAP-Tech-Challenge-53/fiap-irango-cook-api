@@ -39,13 +39,13 @@ export class PedidoController {
   async confirm (
     id: number
  ): Promise<PedidoDto> {
-   const useCase = new Confirm(
-     new PedidoGateway(this.repository),
-   )
+    const useCase = new Confirm(
+      new PedidoGateway(this.repository),
+    )
 
-   const pedido = await useCase.handle(id)
-   return PedidoMapper.toDto(pedido)
- }
+    const pedido = await useCase.handle(id)
+    return PedidoMapper.toDto(pedido)
+  }
 
   async findById (
     id: number,

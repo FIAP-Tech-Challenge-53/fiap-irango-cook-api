@@ -68,11 +68,11 @@ export class Environment {
     return process.env.CONFIRM_PAYMENT_QUEUE || 'fiap-irango-cook_payment-confirmed_dev'
   }
 
-  static get CREATED_ORDER_QUEUE() {
+  static get CREATED_ORDER_QUEUE () {
     return process.env.CREATED_ORDER_QUEUE || 'fiap-irango-cook_order-created_dev'
   }
 
-  static get URL_QUEUE() {
+  static get URL_QUEUE () {
     return process.env.URL_QUEUE || 'http://localhost:4566/000000000000/'
   }
 }
